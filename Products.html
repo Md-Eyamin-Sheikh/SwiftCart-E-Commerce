@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwiftCart - Best Collection For You</title>
+    <title>Products - SwiftCart</title>
     <link href="./dist/output.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-gray-50 font-sans text-gray-800">
@@ -14,14 +13,14 @@
     <nav class="bg-white shadow-md sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <!-- Logo -->
-            <a href="#" class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-bold text-blue-600 flex items-center gap-2">
                 <i class="fas fa-shopping-bag"></i> SwiftCart
             </a>
 
             <!-- Menu -->
             <ul class="hidden md:flex space-x-8 text-gray-600 font-medium">
-                <li><a href="index.html" class="text-blue-600 transition">Home</a></li>
-                <li><a href="Products.html" class="hover:text-blue-600 transition">Products</a></li>
+                <li><a href="index.html" class="hover:text-blue-600 transition">Home</a></li>
+                <li><a href="Products.html" class="text-blue-600 transition">Products</a></li>
                 <li><a href="About.html" class="hover:text-blue-600 transition">About</a></li>
                 <li><a href="Contact.html" class="hover:text-blue-600 transition">Contact</a></li>
             </ul>
@@ -39,57 +38,20 @@
         </div>
     </nav>
 
-    <section class="relative bg-gray-900 text-white py-20 md:py-32">
-        <div class="absolute inset-0 overflow-hidden">
-             <img src="./Assets/banner-image.png" alt="Hero Background" class="w-full h-full object-cover">
-        </div>
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Best Collection For You</h1>
-            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Discover the latest trends in fashion and electronics. Shop now and elevate your style with SwiftCart.</p>
-            <a href="#products" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 inline-block shadow-lg">Shop Now</a>
+    <!-- Page Title -->
+    <section class="bg-gray-100 py-12">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold text-gray-900">All Products</h1>
+            <p class="text-gray-600 mt-2">Browse our wide range of products.</p>
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Products Grid -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Why Choose Us</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="text-center p-6 border rounded-xl shadow-sm hover:shadow-md transition">
-                    <div class="bg-blue-100 text-blue-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shipping-fast text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Fast Delivery</h3>
-                    <p class="text-gray-600">Get your products delivered to your doorstep in record time.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="text-center p-6 border rounded-xl shadow-sm hover:shadow-md transition">
-                    <div class="bg-green-100 text-green-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-headset text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">24/7 Support</h3>
-                    <p class="text-gray-600">Our support team is available around the clock to assist you.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="text-center p-6 border rounded-xl shadow-sm hover:shadow-md transition">
-                    <div class="bg-purple-100 text-purple-600 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                        <i class="fas fa-shield-alt text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Secure Payment</h3>
-                    <p class="text-gray-600">Your transactions are safe and encrypted with us.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trending Section -->
-    <section id="products" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Trending Products</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Product 1 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100">
                     <img src="https://placehold.co/400x300?text=Product+1" alt="Product 1" class="w-full h-48 object-cover">
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -108,7 +70,7 @@
                 </div>
 
                 <!-- Product 2 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100">
                     <img src="https://placehold.co/400x300?text=Product+2" alt="Product 2" class="w-full h-48 object-cover">
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -127,7 +89,7 @@
                 </div>
 
                 <!-- Product 3 -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100">
                     <img src="https://placehold.co/400x300?text=Product+3" alt="Product 3" class="w-full h-48 object-cover">
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -154,7 +116,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
                 <!-- Branding -->
                 <div>
-                    <a href="#" class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+                    <a href="index.html" class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
                         <i class="fas fa-shopping-bag"></i> SwiftCart
                     </a>
                     <p class="text-gray-400">Your one-stop shop for all things trendy. We provide the best quality products at the most affordable prices.</p>
