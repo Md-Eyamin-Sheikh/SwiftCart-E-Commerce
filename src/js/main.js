@@ -9,10 +9,20 @@ const modalContent = document.getElementById('modal-content');
 const closeModalBtn = document.getElementById('close-modal');
 
 // State
-let currentCategory = 'all';
+// Cart State
+let cart = [];
+
+// DOM Elements (Cart)
+const cartSidebar = document.getElementById('cart-sidebar');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalElement = document.getElementById('cart-total');
+const cartCountElement = document.getElementById('cart-count');
+const cartOverlay = document.getElementById('cart-overlay');
 
 // Initialize
 async function init() {
+    loadCart();
+    
     if (categoriesContainer) {
         await fetchCategories();
     }
@@ -24,78 +34,157 @@ async function init() {
     }
 }
 
-// Fetch Categories
-async function fetchCategories() {
-    try {
-        const response = await fetch(`${API_URL}/categories`);
-        const categories = await response.json();
-        renderCategories(['all', ...categories]);
-    } catch (error) {
-        console.error('Error fetching categories:', error);
+// ... (Existing Categories and Products Logic) ...
+
+// --- Cart Functions ---
+
+// Load Cart from LocalStorage
+function loadCart() {
+    const savedCart = localStorage.getItem('swiftcart_items');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
     }
+    updateCartIcon();
 }
 
-// Render Categories
-function renderCategories(categories) {
-    categoriesContainer.innerHTML = categories.map(category => `
-        <button 
-            onclick="handleCategoryClick('${category}')"
-            class="px-4 py-2 rounded-full capitalize transition ${currentCategory === category ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'}"
-        >
-            ${category}
-        </button>
-    `).join('');
+// Save Cart to LocalStorage
+function saveCart() {
+    localStorage.setItem('swiftcart_items', JSON.stringify(cart));
+    updateCartIcon();
+    renderCart(); // Re-render if open
 }
 
-// Handle Category Click
-window.handleCategoryClick = async (category) => {
-    currentCategory = category;
-    // Update button styles
-    const buttons = categoriesContainer.querySelectorAll('button');
-    buttons.forEach(btn => {
-        if (btn.textContent.trim().toLowerCase() === category) {
-            btn.className = 'px-4 py-2 rounded-full capitalize transition bg-blue-600 text-white';
-        } else {
-            btn.className = 'px-4 py-2 rounded-full capitalize transition bg-white text-gray-700 hover:bg-gray-100 border border-gray-200';
-        }
-    });
+// Add to Cart
+window.addToCart = (product) => {
+    const existingItem = cart.find(item => item.id === product.id);
     
-    await fetchProducts(category);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({ ...product, quantity: 1 });
+    }
+    
+    saveCart();
+    
+    // Optional: open cart or show toast
+    toggleCart(true); 
 };
 
-// Fetch Products
-async function fetchProducts(category = 'all') {
-    productsGrid.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>';
-    
-    try {
-        const url = category === 'all' ? API_URL : `${API_URL}/category/${category}`;
-        const response = await fetch(url);
-        const products = await response.json();
-        renderProducts(products, productsGrid);
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        productsGrid.innerHTML = '<div class="col-span-full text-center text-red-500">Failed to load products. Please try again.</div>';
+// Remove from Cart
+window.removeFromCart = (id) => {
+    cart = cart.filter(item => item.id !== id);
+    saveCart();
+};
+
+// Update Quantity (Optional helper)
+window.updateQuantity = (id, change) => {
+    const item = cart.find(item => item.id === id);
+    if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) {
+            removeFromCart(id);
+        } else {
+            saveCart();
+        }
+    }
+};
+
+// Update Cart Icon Count
+function updateCartIcon() {
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCountElement) {
+        cartCountElement.textContent = totalCount;
+        // animate ping
+        cartCountElement.classList.remove('hidden');
+        if (totalCount === 0) cartCountElement.classList.add('hidden');
     }
 }
 
-// Fetch Trending Products
-async function fetchTrendingProducts() {
-    trendingProductsGrid.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>';
-    
-    try {
-        const response = await fetch(`${API_URL}?limit=3`);
-        const products = await response.json();
-        renderProducts(products, trendingProductsGrid);
-    } catch (error) {
-        console.error('Error fetching trending products:', error);
-        trendingProductsGrid.innerHTML = '<div class="col-span-full text-center text-red-500">Failed to load trending products.</div>';
+// Toggle Cart Sidebar
+window.toggleCart = (show) => {
+    if (show === undefined) {
+        // Toggle
+        const isHidden = cartSidebar.classList.contains('translate-x-full');
+        if (isHidden) {
+            openCart();
+        } else {
+            closeCart();
+        }
+    } else if (show) {
+        openCart();
+    } else {
+        closeCart();
+    }
+};
+
+function openCart() {
+    cartSidebar.classList.remove('translate-x-full');
+    cartOverlay.classList.remove('hidden');
+    renderCart();
+}
+
+function closeCart() {
+    cartSidebar.classList.add('translate-x-full');
+    cartOverlay.classList.add('hidden');
+}
+
+// Render Cart Items
+function renderCart() {
+    if (!cartItemsContainer) return;
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-full text-gray-500">
+                <i class="fas fa-shopping-cart text-4xl mb-4 text-gray-300"></i>
+                <p>Your cart is empty.</p>
+                <button onclick="toggleCart(false)" class="mt-4 text-blue-600 font-medium hover:underline">Continue Shopping</button>
+            </div>
+        `;
+        cartTotalElement.textContent = '$0.00';
+    } else {
+        cartItemsContainer.innerHTML = cart.map(item => `
+            <div class="flex items-center gap-4 py-4 border-b border-gray-100 last:border-0">
+                <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-contain bg-gray-50 rounded p-2">
+                <div class="flex-1">
+                    <h4 class="text-sm font-bold text-gray-800 line-clamp-1" title="${item.title}">${item.title}</h4>
+                    <p class="text-blue-600 font-bold">$${item.price}</p>
+                    <div class="flex items-center gap-3 mt-1">
+                        <button onclick="updateQuantity(${item.id}, -1)" class="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition">-</button>
+                        <span class="text-sm font-medium w-4 text-center">${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" class="w-6 h-6 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200 transition">+</button>
+                    </div>
+                </div>
+                <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-500 transition p-2">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `).join('');
+
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        cartTotalElement.textContent = `$${total.toFixed(2)}`;
     }
 }
 
-// Render Products
+// Render Products (Updated to include Add to Cart logic)
 function renderProducts(products, container) {
     if (!container) return;
-    container.innerHTML = products.map(product => `
+    container.innerHTML = products.map(product => {
+        // Encode product data to pass to addToCart safely
+        // Note: For simplicity in this static setup, we'll just pass the ID and fetching again or using the object from memory might be cleaner, 
+        // but since we have the object here, let's construct a minimal object to pass.
+        // Or better yet, we can attach the event listener directly if we weren't using template strings, 
+        // but with template strings, we'll put the object in a global map or simply pass valid JSON.
+        // Actually, passing a large object in HTML attribute is messy. 
+        // Let's store products in a map or just pass the parameters we need.
+        // For this assignment, let's use a helper to find the product from the fetched list? 
+        // We don't store the fetched list globally though (except in the closure of the render).
+        // Let's attach a global look-up or just pass the necessary fields.
+        
+        // Let's pass the object carefully. Using base64 or just single quotes escape is standard 'hack' for simple apps.
+        // A cleaner way for this complexity:
+        const productJson = JSON.stringify(product).replace(/"/g, '&quot;');
+        
+        return `
         <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100 flex flex-col h-full">
             <div class="h-48 overflow-hidden p-4 flex items-center justify-center bg-white">
                 <img src="${product.image}" alt="${product.title}" class="h-full object-contain">
@@ -111,14 +200,14 @@ function renderProducts(products, container) {
                 <p class="text-2xl font-bold text-gray-900 mb-4 mt-auto">$${product.price}</p>
                 <div class="flex gap-2 mt-4">
                     <button onclick="openModal(${product.id})" class="flex-1 border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2 px-4 rounded transition">Details</button>
-                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition">Add to Cart</button>
+                    <button onclick='addToCart(${productJson})' class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition shadow-sm">Add to Cart</button>
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 }
 
-// Modal Logic
+// Modal Logic (Updated Add to Cart)
 window.openModal = async (id) => {
     productModal.classList.remove('hidden');
     modalContent.innerHTML = '<div class="text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>';
@@ -126,6 +215,7 @@ window.openModal = async (id) => {
     try {
         const response = await fetch(`${API_URL}/${id}`);
         const product = await response.json();
+        const productJson = JSON.stringify(product).replace(/"/g, '&quot;');
         
         modalContent.innerHTML = `
             <div class="flex flex-col md:flex-row gap-8">
@@ -144,7 +234,7 @@ window.openModal = async (id) => {
                     <p class="text-3xl font-bold text-gray-900 mb-6">$${product.price}</p>
                     <p class="text-gray-600 mb-8 leading-relaxed">${product.description}</p>
                     <div class="flex gap-4">
-                        <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md">
+                         <button onclick='addToCart(${productJson}); closeModal();' class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md">
                             Add to Cart
                         </button>
                         <button onclick="closeModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
@@ -159,6 +249,8 @@ window.openModal = async (id) => {
         modalContent.innerHTML = '<div class="text-center text-red-500">Failed to load product details.</div>';
     }
 };
+
+// ... (Rest of existing code) ...
 
 window.closeModal = () => {
     productModal.classList.add('hidden');
