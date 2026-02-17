@@ -36,7 +36,90 @@ async function init() {
     }
 }
 
-// ... (Existing Categories and Products Logic) ...
+// --- Product & Category Functions ---
+
+// Fetch Categories
+async function fetchCategories() {
+    try {
+        const response = await fetch(`${API_URL}/categories`);
+        const categories = await response.json();
+        renderCategories(categories);
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+    }
+}
+
+// Render Categories
+function renderCategories(categories) {
+    if (!categoriesContainer) return;
+
+    const allBtn = `<button onclick="handleCategoryClick('all')" class="category-btn active bg-blue-600 text-white whitespace-nowrap px-6 py-2 rounded-full border border-blue-600 hover:bg-blue-700 transition">All</button>`;
+    
+    const categoryBtns = categories.map(category => `
+        <button onclick="handleCategoryClick('${category}')" class="category-btn whitespace-nowrap px-6 py-2 rounded-full border border-gray-200 text-gray-600 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition capitalize">
+            ${category}
+        </button>
+    `).join('');
+    
+    categoriesContainer.innerHTML = allBtn + categoryBtns;
+}
+
+// Handle Category Click
+window.handleCategoryClick = async (category) => {
+    // Update active state
+    const btns = document.querySelectorAll('.category-btn');
+    btns.forEach(btn => {
+        const btnCategory = btn.textContent.trim().toLowerCase();
+        if (btnCategory === category.toLowerCase() || (category === 'all' && btn.textContent.trim() === 'All')) {
+            btn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+            btn.classList.remove('text-gray-600', 'border-gray-200');
+        } else {
+            btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+            btn.classList.add('text-gray-600', 'border-gray-200');
+        }
+    });
+
+    await fetchProducts(category);
+};
+
+// Fetch Products
+async function fetchProducts(category = 'all') {
+    if (!productsGrid) return;
+    
+    productsGrid.innerHTML = '<div class="col-span-full text-center py-20"><i class="fas fa-spinner fa-spin text-4xl text-blue-600"></i></div>';
+    
+    try {
+        let url = API_URL;
+        if (category !== 'all') {
+            url = `${API_URL}/category/${category}`;
+        }
+        
+        const response = await fetch(url);
+        const products = await response.json();
+        renderProducts(products, productsGrid);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        productsGrid.innerHTML = '<div class="col-span-full text-center text-red-500">Failed to load products.</div>';
+    }
+}
+
+// Fetch Trending Products
+async function fetchTrendingProducts() {
+    if (!trendingProductsGrid) return;
+    
+    // Skeleton loader is in HTML, so we don't clear explicitly unless needed
+    // But good practice to show spinner if re-fetching
+    // trendingProductsGrid.innerHTML = '...'; 
+    
+    try {
+        const response = await fetch(`${API_URL}?limit=3`);
+        const products = await response.json();
+        renderProducts(products, trendingProductsGrid);
+    } catch (error) {
+        console.error('Error fetching trending products:', error);
+        if (trendingProductsGrid) trendingProductsGrid.innerHTML = '<div class="col-span-full text-center text-red-500">Failed to load trending products.</div>';
+    }
+}
 
 // --- Cart Functions ---
 
