@@ -23,6 +23,7 @@ const mobileMenu = document.getElementById('mobile-menu');
 
 // Initialize
 async function init() {
+    console.log('Main.js initialized');
     loadCart();
     
     if (categoriesContainer) {

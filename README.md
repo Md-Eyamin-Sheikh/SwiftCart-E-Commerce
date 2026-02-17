@@ -1,143 +1,33 @@
-## WELCOME TO ( সহজ সরল সিম্পল ) ASSIGNMENT (SwiftCart E-Commerce)
+# JavaScript Concepts
 
+## 1. accurate difference between null and undefined?
 
-## Repository: Create your own public repository and submit the link.
+**Answer:**
+Think of `undefined` as a variable that has been declared but hasn't been given a value yet—it's like an empty box labeled "storage" but with nothing inside. On the other hand, `null` is an intentional assignment of "nothing." It's like putting a label on that box that explicitly says "This box is empty on purpose." So, `undefined` is the default state of uninitialized variables, while `null` is something you manually assign to represent no value.
 
----
-## 🛍️ API Endpoints
----
-1. Get 🛍️ All Products
-```bash
-https://fakestoreapi.com/products
-```
+## 2. What is the use of the map() function in JavaScript? How is it different from forEach()?
 
-2. Get 🛍️ All Categories
-```bash
-https://fakestoreapi.com/products/categories
-```
+**Answer:**
+The `map()` function is used when you want to transform an array into a _new_ array. It loops through each item, applies a function to it, and returns a fresh array with the modified items.
+The key difference from `forEach()` is that `map()` returns a new array, whereas `forEach()` just executes a function for each element and returns `undefined`. Use `map()` if you need the result; use `forEach()` if you just need to run a side effect (like logging or saving to a database) without creating a new list.
 
-3. Get 🛍️ Products by Category
-```bash
-https://fakestoreapi.com/products/category/${category}
-```
+## 3. What is the difference between == and ===?
 
-Example:
-```bash
-https://fakestoreapi.com/products/category/jewelery
-```
+**Answer:**
+`==` (loose equality) checks if two values are equal _after_ converting them to a common type. For example, `5 == "5"` is true because JavaScript converts the string "5" to a number before comparing.
+`===` (strict equality) checks if two values are equal _without_ type conversion. So, `5 === "5"` is false because one is a number and the other is a string. Always use `===` to avoid unexpected bugs!
 
-4. Get 🛍️ Single Product Detail
-```bash
-https://fakestoreapi.com/products/${id}
-```
+## 4. What is the significance of async/await in fetching API data?
 
-Example:
-```bash
-https://fakestoreapi.com/products/1
-```
+**Answer:**
+Fetching data from an API takes time, and JavaScript doesn't want to freeze your whole app while waiting. Before `async/await`, we used `.then()` chains (Promses), which could get messy and hard to read (callback hell).
+`async/await` makes asynchronous code look and behave like synchronous (normal) code. It pauses the function execution at the `await` keyword until the data is ready, making your code cleaner, easier to read, and much simpler to debug using try/catch blocks.
 
----
+## 5. Explain the concept of Scope in JavaScript (Global, Function, Block).
 
-## 🎯 Project Specifications (UI/UX)
+**Answer:**
+Scope determines where variables are accessible in your code.
 
-#### 1) Navbar
-- Website **logo/name** ("SwiftCart") on the **left**
-- **Menu items** (Home, Products, About, Contact) in the **center**
-- **Cart Icon/Button** on the **right** (showing item count is a bonus)
-
-#### 2) Banner / Hero Section
-- A **background image** (related to shopping/fashion/electronics)
-- A **title** (e.g., "Best Collection For You") and **subtitle**
-- A **centered button** (e.g., "Shop Now")
-
-#### 3) Features / Why Choose Us
-- **Section heading**
-- **3-4 items** highlighting features like "Fast Delivery", "24/7 Support", "Secure Payment", etc. (Icon + Title + Short Text)
-
-#### 4) Trending / Top Rated Section
-- Show **3 top-rated products** (you can filter by rating or just pick the first 3) based on API data or hardcoded for layout practice.
-
-#### 5) Newsletter & Footer
-- **Newsletter Subscription Form**: Email input + Subscribe button.
-- **Footer** with copyright info, social links, and quick links.
-
-#### 6) Responsiveness
-- Website must be **mobile responsive** 
-
----
-#### 7) Create a README file to answer the following questions-
-
-> **⚠️ Warning:** Do not use any AI tools to answer these questions. You must write the answers in **Bangla**.
-
-#### 1) What is the difference between `null` and `undefined`?
-
-#### 2) What is the use of the `map()` function in JavaScript? How is it different from `forEach()`?
-
-#### 3) What is the difference between `==` and `===`?
-
-#### 4) What is the significance of `async`/`await` in fetching API data?
-
-#### 5) Explain the concept of Scope in JavaScript (Global, Function, Block).
-
-## ⚡ Dynamic Features & Functionalities
-
-1) Category Loading
-Load Product Categories dynamically on the UI (e.g., as filter buttons or a dropdown).
-
-2) Category Click → Product Data
-On clicking a category: load products of that specific category.
-Display in a grid layout (e.g., 3 or 4 columns).
-
-3) Card Contents
-Each product card must include:
-- **Image** (from API)
-- **Title** (truncated if too long)
-- **Price** ($ value)
-- **Category** (badge or text)
-- **Rating** (Visualize stars or just show the number)
-- **Details Button**
-- **Add to Cart button**
-
-4) Modal on "Details" Click
-Clicking the "Details" button on a card opens a modal with full product details:
-- Full Title
-- Full Description
-- Price & Rating
-- "Buy Now" or "Add to Cart" button in modal.
-
-## 🧪 Challenges (Optional)
-
-    1) Add to Cart Interaction
-    Clicking "Add to Cart":
-    - Adds the product to a Cart list/array.
-    - Updates a Cart Count in the Navbar.
-    - (Optional) Persist in LocalStorage.
-
-    2) Cart Calculation
-    Show a summary (maybe in a sidebar or a separate section/modal) that lists added items and calculates the **Total Price**.
-
-    3) Remove from Cart
-    Ability to remove an item from the cart and update the Total Price instantly.
-
-    4) Loading Spinner
-    Show a loading spinner or skeleton loader while fetching data from the API.
-
-    5) Active State
-    Highlight the currently selected category button.
-
-🧰 Technology Stack:
-    HTML
-    CSS (Vanilla / Tailwind / DaisyUI)
-    JavaScript (Vanilla only, no frameworks like React/Vue for this assignment)
-
-📌 Rules
-✅ At least 5 meaningful commits
-❌ No dummy text where real data can be shown.
-
-## 🔗 Submission
-- **Live Link :** YOUR_DEPLOYED_URL_HERE
-- **GitHub Repository:** YOUR_REPO_URL_HERE
-
-
-### 📅 Deadline For 60 marks: 17th February, 2026 (11:59 pm ⏱️)
-- Note: There won't be any 50 or 30 marks submission deadline. Only 60 marks submission deadline. After 17th February, 2026 (11:59 pm ⏱️) no submission will be accepted.
+- **Global Scope:** Variables declared outside any function or block. They can be accessed from anywhere in your code.
+- **Function Scope:** Variables declared inside a function (using `var`, `let`, or `const`). They are only accessible within that specific function.
+- **Block Scope:** Variables declared inside a block `{}` (like an `if` statement or `for` loop) using `let` or `const`. They exist only within those curly braces and cannot be accessed from outside.
