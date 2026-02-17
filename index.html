@@ -33,20 +33,43 @@
             </button>
 
             <!-- Mobile Menu Button -->
-            <button class="md:hidden text-gray-600 focus:outline-none">
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4 px-4 bg-white border-t border-gray-100">
+            <ul class="space-y-2 text-gray-600 font-medium pt-2">
+                <li><a href="index.html" class="block py-2 hover:text-blue-600 transition">Home</a></li>
+                <li><a href="Products.html" class="block py-2 hover:text-blue-600 transition">Products</a></li>
+                <li><a href="About.html" class="block py-2 hover:text-blue-600 transition">About</a></li>
+                <li><a href="Contact.html" class="block py-2 hover:text-blue-600 transition">Contact</a></li>
+            </ul>
     </nav>
 
-    <section class="relative bg-gray-900 text-white py-20 md:py-32">
+    <section class="relative bg-gray-900 text-white py-24 md:py-32">
         <div class="absolute inset-0 overflow-hidden">
              <img src="./Assets/banner-image.png" alt="Hero Background" class="w-full h-full object-cover">
+             <!-- Gradient Overlay for better readability -->
+             <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         </div>
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Best Collection For You</h1>
-            <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Discover the latest trends in fashion and electronics. Shop now and elevate your style with SwiftCart.</p>
-            <a href="#products" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 inline-block shadow-lg">Shop Now</a>
+        <div class="container mx-auto px-4 relative z-10 text-left md:w-3/4 lg:w-1/2">
+            <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block shadow-md">New Arrivals</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg">
+                Best Collection <br/> <span class="text-blue-400">For You</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed drop-shadow-md max-w-lg">
+                Discover the latest trends in fashion and electronics. Shop now and elevate your style with SwiftCart's premium selection.
+            </p>
+            <div class="flex gap-4">
+                <a href="#products" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full transition transform hover:scale-105 shadow-lg flex items-center gap-2">
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="About.html" class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold py-4 px-8 rounded-full transition transform hover:scale-105 shadow-lg">
+                    Learn More
+                </a>
+            </div>
         </div>
     </section>
 

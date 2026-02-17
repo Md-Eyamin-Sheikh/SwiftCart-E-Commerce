@@ -32,10 +32,19 @@
             </a>
 
             <!-- Mobile Menu Button -->
-            <button class="md:hidden text-gray-600 focus:outline-none">
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden pb-4 px-4 bg-white border-t border-gray-100">
+            <ul class="space-y-2 text-gray-600 font-medium pt-2">
+                <li><a href="index.html" class="block py-2 hover:text-blue-600 transition">Home</a></li>
+                <li><a href="Products.html" class="block py-2 hover:text-blue-600 transition">Products</a></li>
+                <li><a href="About.html" class="block py-2 hover:text-blue-600 transition">About</a></li>
+                <li><a href="Contact.html" class="block py-2 hover:text-blue-600 transition">Contact</a></li>
+            </ul>
     </nav>
 
     <!-- Page Title -->
@@ -50,7 +59,7 @@
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
             <div class="md:w-1/2">
-                <img src="https://placehold.co/600x400?text=Our+Team" alt="About Us" class="rounded-xl shadow-lg w-full">
+                <img src="./Assets/banner-image.png" alt="About Us" class="rounded-xl shadow-lg w-full object-cover h-[400px]">
             </div>
             <div class="md:w-1/2">
                 <h2 class="text-3xl font-bold mb-6 text-gray-800">We Bring The Best Products For You</h2>

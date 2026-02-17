@@ -18,6 +18,8 @@ const cartItemsContainer = document.getElementById('cart-items');
 const cartTotalElement = document.getElementById('cart-total');
 const cartCountElement = document.getElementById('cart-count');
 const cartOverlay = document.getElementById('cart-overlay');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
 
 // Initialize
 async function init() {
@@ -267,6 +269,13 @@ if (productModal) {
 
 if (closeModalBtn) {
     closeModalBtn.addEventListener('click', closeModal);
+}
+
+// Mobile Menu Toggle
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
 }
 
 // Helper: Generate Star Rating HTML
